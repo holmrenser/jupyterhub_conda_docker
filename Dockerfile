@@ -4,7 +4,7 @@ ENV PATH /opt/conda/bin:$PATH
 
 # Generic installs
 RUN apt-get update --fix-missing && \
-    apt-get install -y wget bzip2 ca-certificates curl git vim libarchive13 && \
+    apt-get install -y wget bzip2 ca-certificates curl git vim libarchive13 build-essential libboost-all-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
