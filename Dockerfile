@@ -58,4 +58,5 @@ ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /usr/
 RUN chmod +x /usr/bin/tini
 
 ENTRYPOINT [ "/usr/bin/tini", "--" ]
+ENV SHELL /bin/bash
 CMD jupyterhub -f /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py
