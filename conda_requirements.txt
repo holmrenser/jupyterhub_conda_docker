@@ -14,6 +14,7 @@ diamond==2.0.15
 dram
 eggnog-mapper==2.1.9
 fastp==0.23.2
+fastqc
 gtdbtk==1.7.0
 hmmer==3.1b2
 ipython
