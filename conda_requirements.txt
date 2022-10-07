@@ -17,7 +17,6 @@ fastp==0.23.2
 gtdbtk==1.7.0
 hmmer==3.1b2
 ipython
-jupyter
 jupyterhub
 kaiju==1.9.0
 kraken2==2.1.2

@@ -4,21 +4,20 @@ ENV PATH /opt/conda/bin:$PATH
 
 # Generic installs
 RUN apt-get update --fix-missing && \
-    apt-get install -y wget bzip2 ca-certificates curl git vim libarchive13 build-essential libboost-all-dev && \
+    apt-get install -y wget bzip2 ca-certificates curl git \
+        vim libarchive13 build-essential libboost-all-dev cmake && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Install conda
-RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
+    -O ~/miniconda.sh && \
     /bin/bash ~/miniconda.sh -b -p /opt/conda && \
     rm ~/miniconda.sh && \
     conda clean --all --force-pkgs-dirs --yes && \
     ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
     echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
     echo "conda activate base" >> ~/.bashrc
-
-# Change the default shell command to shell wrapped in a conda env
-# SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
 
 # Some more conda configuration
 RUN . ~/.bashrc && \
@@ -39,6 +38,14 @@ RUN mamba install --yes --file conda_requirements.txt
 
 # Install python dependencies
 RUN python3 -m pip install -r requirements.txt
+
+# R stuff
+RUN Rscript -e " \
+    install.packages(c('tidyverse','vegan','mediation','ape','BiocManager', \
+    'IRkernel'), repos='https://cloud.r-project.org/'); \
+    BiocManager::install('microbiome'); \
+    IRkernel::installspec(user = FALSE);
+    "
 
 # Set up jupyterhub
 RUN mkdir -p /opt/jupyterhub/etc/jupyterhub/
